@@ -39,6 +39,7 @@ export interface Database {
           full_name?: string | null
           created_at?: string
         }
+        Relationships: []
       }
       donors: {
         Row: {
@@ -107,6 +108,7 @@ export interface Database {
           updated_at?: string
         }
         Update: Partial<Database['public']['Tables']['donors']['Insert']>
+        Relationships: []
       }
       hospitals: {
         Row: {
@@ -138,6 +140,7 @@ export interface Database {
           is_active?: boolean
         }
         Update: Partial<Database['public']['Tables']['hospitals']['Insert']>
+        Relationships: []
       }
       blood_banks: {
         Row: {
@@ -167,6 +170,7 @@ export interface Database {
           is_active?: boolean
         }
         Update: Partial<Database['public']['Tables']['blood_banks']['Insert']>
+        Relationships: []
       }
       blood_requests: {
         Row: {
@@ -222,6 +226,7 @@ export interface Database {
           ip_hash?: string | null
         }
         Update: Partial<Database['public']['Tables']['blood_requests']['Insert']>
+        Relationships: []
       }
       request_notifications: {
         Row: {
@@ -254,6 +259,7 @@ export interface Database {
           response_token?: string
         }
         Update: Partial<Database['public']['Tables']['request_notifications']['Insert']>
+        Relationships: []
       }
       donation_history: {
         Row: {
@@ -272,6 +278,7 @@ export interface Database {
           units?: number
         }
         Update: Partial<Database['public']['Tables']['donation_history']['Insert']>
+        Relationships: []
       }
       contact_access_log: {
         Row: {
@@ -290,11 +297,13 @@ export interface Database {
           kind: 'view' | 'call' | 'whatsapp'
         }
         Update: Partial<Database['public']['Tables']['contact_access_log']['Insert']>
+        Relationships: []
       }
       app_settings: {
         Row: { key: string; value: Json; description: string | null }
         Insert: { key: string; value: Json; description?: string | null }
         Update: { key?: string; value?: Json; description?: string | null }
+        Relationships: []
       }
     }
     Views: {
@@ -302,6 +311,7 @@ export interface Database {
         Row: Database['public']['Tables']['donors']['Row'] & {
           availability_status: 'available' | 'cooldown' | 'paused' | 'inactive'
         }
+        Relationships: []
       }
     }
     Functions: {
@@ -319,7 +329,33 @@ export interface Database {
       }
       get_notification_by_token: {
         Args: { p_token: string }
-        Returns: Json
+        Returns: {
+          notification: {
+            status: NotificationStatus
+            distance_km: number | null
+            wave: number
+            donated_at: string | null
+          }
+          donor: { name: string; blood_type: BloodType }
+          request: {
+            status: RequestStatus
+            blood_type: BloodType
+            units_needed: number
+            urgency: UrgencyLevel
+            hospital_name: string
+            hospital_address: string | null
+            latitude: number
+            longitude: number
+            needed_by: string | null
+            created_at: string
+          }
+          contacts: {
+            contact_1: string
+            contact_2: string | null
+            requester_name: string | null
+            patient_gender: GenderType
+          } | null
+        } | null
       }
       respond_to_notification: {
         Args: { p_token: string; p_action: string }

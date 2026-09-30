@@ -2,7 +2,7 @@ import { z } from 'zod'
 import { isValidPhone, normalizePhone } from '@/lib/phone'
 import { ALL_BLOOD_TYPES } from '@/lib/compat'
 
-const bloodTypeEnum = z.enum(ALL_BLOOD_TYPES as [string, ...string[]])
+const bloodTypeEnum = z.enum(ALL_BLOOD_TYPES)
 
 export const donorStep1Schema = z.object({
   full_name: z.string().min(2, 'Name must be at least 2 characters').max(100, 'Name too long'),
@@ -16,7 +16,7 @@ export const donorStep1Schema = z.object({
     }, 'You must be between 18 and 65 years old'),
   gender: z.enum(['male', 'female', 'other']),
   weight_kg: z
-    .number({ invalid_type_error: 'Weight is required' })
+    .number({ error: 'Weight is required' })
     .min(50, 'Minimum weight is 50 kg')
     .max(250, 'Weight seems too high'),
   blood_type: bloodTypeEnum,
@@ -35,8 +35,8 @@ export const donorStep2Schema = z.object({
   address: z.string().optional(),
   area: z.string().optional(),
   city: z.string().default('Dhaka'),
-  latitude: z.number({ required_error: 'Location is required' }),
-  longitude: z.number({ required_error: 'Location is required' }),
+  latitude: z.number({ error: 'Location is required' }),
+  longitude: z.number({ error: 'Location is required' }),
 })
 
 export const donorStep3Schema = z.object({
@@ -46,7 +46,7 @@ export const donorStep3Schema = z.object({
   q_medication: z.boolean(),
   q_chronic: z.boolean(),
   q_pregnant: z.boolean(),
-  consent_given: z.literal(true, { errorMap: () => ({ message: 'Consent is required' }) }),
+  consent_given: z.literal(true, { error: 'Consent is required' }),
   show_on_leaderboard: z.boolean().default(false),
 })
 
@@ -66,6 +66,9 @@ export const fullDonorSchema = donorStep1Schema.merge(donorStep2Schema).merge(
 export type DonorStep1 = z.infer<typeof donorStep1Schema>
 export type DonorStep2 = z.infer<typeof donorStep2Schema>
 export type DonorStep3 = z.infer<typeof donorStep3Schema>
+export type DonorStep1Input = z.input<typeof donorStep1Schema>
+export type DonorStep2Input = z.input<typeof donorStep2Schema>
+export type DonorStep3Input = z.input<typeof donorStep3Schema>
 export type FullDonor = z.infer<typeof fullDonorSchema>
 
 /** Transform validated donor data into a DB insert shape */

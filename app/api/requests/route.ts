@@ -4,6 +4,7 @@ import { createAdminClient } from '@/lib/supabase/admin'
 import { getClientIp, hashIp } from '@/lib/ip'
 import { rateLimit } from '@/lib/ratelimit'
 import { dispatchPendingNotifications } from '@/lib/dispatch'
+import { getAppUrl } from '@/lib/app-url'
 
 export async function POST(request: NextRequest) {
   try {
@@ -54,7 +55,7 @@ export async function POST(request: NextRequest) {
       throw error
     }
 
-    const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? 'http://localhost:3000'
+    const appUrl = getAppUrl()
     const statusUrl = `${appUrl}/request/${data.id}?t=${data.public_token}`
 
     // Fire-and-forget dispatch (wave 1 already inserted by DB trigger)

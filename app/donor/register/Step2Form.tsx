@@ -1,7 +1,7 @@
 'use client'
 
 import { UseFormReturn } from 'react-hook-form'
-import type { DonorStep2 } from '@/lib/validation/donor'
+import type { DonorStep2, DonorStep2Input } from '@/lib/validation/donor'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -10,7 +10,7 @@ import { LocationPicker } from '@/components/map/LocationPicker'
 import { useState } from 'react'
 
 interface Props {
-  form: UseFormReturn<DonorStep2>
+  form: UseFormReturn<DonorStep2Input, unknown, DonorStep2>
   onNext: () => void
   onBack: () => void
 }
@@ -49,7 +49,7 @@ export function Step2Form({ form, onNext, onBack }: Props) {
 
       <div>
         <Label>Your location *</Label>
-        <p className="text-xs text-gray-500 mb-2">
+        <p className="text-xs text-black mb-2">
           Used to find patients near you. Your exact location is never shown publicly.
         </p>
         <LocationPicker

@@ -4,7 +4,7 @@ import { BloodTypeBadge } from '@/components/BloodTypeBadge'
 import { UrgencyBadge } from '@/components/UrgencyBadge'
 import { Card, CardContent } from '@/components/ui/card'
 import { AdminRequestActions } from './AdminRequestActions'
-import type { BloodType, UrgencyLevel } from '@/types/database'
+import type { BloodType, RequestStatus, UrgencyLevel } from '@/types/database'
 
 export default async function AdminRequestsPage({
   searchParams,
@@ -12,6 +12,9 @@ export default async function AdminRequestsPage({
   searchParams: Promise<{ page?: string; status?: string }>
 }) {
   const { page = '1', status = '' } = await searchParams
+  const statusFilter = ['open', 'fulfilled', 'expired', 'cancelled'].includes(status)
+    ? status as RequestStatus
+    : null
   const pageNum = Math.max(1, parseInt(page))
   const pageSize = 25
   const from = (pageNum - 1) * pageSize
@@ -23,7 +26,7 @@ export default async function AdminRequestsPage({
     .order('created_at', { ascending: false })
     .range(from, from + pageSize - 1)
 
-  if (status) query = query.eq('status', status)
+  if (statusFilter) query = query.eq('status', statusFilter)
 
   const { data: requests, count } = await query
   const totalPages = Math.ceil((count ?? 0) / pageSize)

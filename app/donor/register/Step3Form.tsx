@@ -1,7 +1,7 @@
 'use client'
 
 import { UseFormReturn } from 'react-hook-form'
-import type { DonorStep3 } from '@/lib/validation/donor'
+import type { DonorStep3, DonorStep3Input } from '@/lib/validation/donor'
 import { Button } from '@/components/ui/button'
 import { Label } from '@/components/ui/label'
 import { Checkbox } from '@/components/ui/checkbox'
@@ -17,7 +17,7 @@ const QUESTIONS: { key: keyof Omit<DonorStep3, 'consent_given' | 'show_on_leader
 ]
 
 interface Props {
-  form: UseFormReturn<DonorStep3>
+  form: UseFormReturn<DonorStep3Input, unknown, DonorStep3>
   onNext: () => void
   onBack: () => void
   loading: boolean
@@ -32,7 +32,7 @@ export function Step3Form({ form, onNext, onBack, loading }: Props) {
     <form onSubmit={onNext} className="space-y-5">
       <div>
         <h3 className="font-medium text-sm mb-1">Health questionnaire</h3>
-        <p className="text-xs text-gray-500 mb-3">
+        <p className="text-xs text-black mb-3">
           Please answer honestly. Final eligibility is decided by medical staff at the donation site.
         </p>
         <div className="space-y-3 border rounded-lg p-4 bg-gray-50">

@@ -10,7 +10,6 @@ export async function dispatchPendingNotifications(): Promise<{ sent: number; fa
   let sent = 0
   let failed = 0
 
-  // eslint-disable-next-line no-constant-condition
   while (true) {
     const { data: rows, error } = await supabase.rpc('claim_pending_notifications', { p_limit: 25 })
     if (error) { console.error('[dispatch] claim error:', error.message); break }
@@ -37,7 +36,7 @@ export async function dispatchPendingNotifications(): Promise<{ sent: number; fa
               p_ok: false,
               p_channel: 'unknown',
               p_error: err instanceof Error ? err.message : 'unknown',
-            }).catch(() => {})
+            })
             failed++
           }
         })

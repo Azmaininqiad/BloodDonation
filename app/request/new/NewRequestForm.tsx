@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
-import { requestSchema, type RequestInput } from '@/lib/validation/request'
+import { requestSchema, type RequestFormInput, type RequestInput } from '@/lib/validation/request'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -29,7 +29,7 @@ export function NewRequestForm() {
   const [hospital, setHospital] = useState<Hospital | null>(null)
   const [showManualHospital, setShowManualHospital] = useState(false)
 
-  const { register, handleSubmit, setValue, watch, formState: { errors } } = useForm<RequestInput>({
+  const { register, handleSubmit, setValue, watch, formState: { errors } } = useForm<RequestFormInput, unknown, RequestInput>({
     resolver: zodResolver(requestSchema),
     defaultValues: {
       urgency: 'mid',
@@ -135,7 +135,7 @@ export function NewRequestForm() {
               ))}
             </SelectContent>
           </Select>
-          <p className="text-xs text-gray-400 mt-0.5">1 bag ≈ 450 ml</p>
+          <p className="text-xs text-black mt-0.5">1 bag ≈ 450 ml</p>
           {errors.units_needed && <p className="text-red-600 text-xs mt-1">{errors.units_needed.message}</p>}
         </div>
 

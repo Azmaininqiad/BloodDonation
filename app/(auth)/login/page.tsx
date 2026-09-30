@@ -82,7 +82,7 @@ export default function LoginPage() {
 
         <div className="relative my-4">
           <div className="absolute inset-0 flex items-center"><div className="w-full border-t border-gray-200" /></div>
-          <div className="relative flex justify-center text-xs text-gray-500"><span className="bg-white px-2">Or continue with</span></div>
+          <div className="relative flex justify-center text-xs text-black"><span className="bg-white px-2">Or continue with</span></div>
         </div>
 
         <Button variant="outline" className="w-full" onClick={signInWithGoogle} type="button">
@@ -95,7 +95,7 @@ export default function LoginPage() {
           Google
         </Button>
       </CardContent>
-      <CardFooter className="justify-center text-sm text-gray-500">
+      <CardFooter className="justify-center text-sm text-black">
         Don&apos;t have an account?{' '}
         <Link href="/signup" className="ml-1 text-red-600 font-medium hover:underline">Sign up</Link>
       </CardFooter>

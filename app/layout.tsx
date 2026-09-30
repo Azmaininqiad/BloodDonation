@@ -9,7 +9,6 @@ export const metadata: Metadata = {
   title: 'BloodConnect – Find Blood Donors Fast',
   description: 'Connect blood donors with patients in need across Dhaka, Bangladesh.',
   manifest: '/manifest.json',
-  themeColor: '#dc2626',
   openGraph: {
     title: 'BloodConnect',
     description: 'Find blood donors near you in minutes.',

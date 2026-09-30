@@ -13,7 +13,6 @@ import { Label } from '@/components/ui/label'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Checkbox } from '@/components/ui/checkbox'
 import { LocationPicker } from '@/components/map/LocationPicker'
-import { ALL_BLOOD_TYPES } from '@/lib/compat'
 import type { Database } from '@/types/database'
 
 type Donor = Database['public']['Tables']['donors']['Row']
@@ -31,7 +30,8 @@ const schema = z.object({
   latitude: z.number(),
   longitude: z.number(),
 })
-type FormData = z.infer<typeof schema>
+type FormInput = z.input<typeof schema>
+type FormData = z.output<typeof schema>
 
 export function ProfileEditForm({ donor }: { donor: Donor }) {
   const supabase = createClient()
@@ -39,7 +39,7 @@ export function ProfileEditForm({ donor }: { donor: Donor }) {
   const [loading, setLoading] = useState(false)
   const [deleteLoading, setDeleteLoading] = useState(false)
 
-  const { register, handleSubmit, setValue, watch, formState: { errors } } = useForm<FormData>({
+  const { register, handleSubmit, setValue, watch, formState: { errors } } = useForm<FormInput, unknown, FormData>({
     resolver: zodResolver(schema),
     defaultValues: {
       full_name: donor.full_name,
@@ -100,12 +100,12 @@ export function ProfileEditForm({ donor }: { donor: Donor }) {
         <div>
           <Label>Blood type</Label>
           <Input value={donor.blood_type} disabled className="mt-1 bg-gray-50" />
-          <p className="text-xs text-gray-400 mt-0.5">Contact admin to change blood type</p>
+          <p className="text-xs text-black mt-0.5">Contact admin to change blood type</p>
         </div>
         <div>
           <Label>Phone</Label>
           <Input value={donor.phone} disabled className="mt-1 bg-gray-50" />
-          <p className="text-xs text-gray-400 mt-0.5">Contact admin to change phone</p>
+          <p className="text-xs text-black mt-0.5">Contact admin to change phone</p>
         </div>
       </div>
 

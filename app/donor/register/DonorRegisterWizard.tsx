@@ -6,7 +6,6 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
 import { createClient } from '@/lib/supabase/client'
-import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import {
   donorStep1Schema,
@@ -16,6 +15,9 @@ import {
   type DonorStep1,
   type DonorStep2,
   type DonorStep3,
+  type DonorStep1Input,
+  type DonorStep2Input,
+  type DonorStep3Input,
   type FullDonor,
 } from '@/lib/validation/donor'
 import { Step1Form } from './Step1Form'
@@ -38,12 +40,12 @@ export function DonorRegisterWizard({ userId }: Props) {
   const [step1Data, setStep1Data] = useState<DonorStep1 | null>(null)
   const [step2Data, setStep2Data] = useState<DonorStep2 | null>(null)
 
-  const form1 = useForm<DonorStep1>({ resolver: zodResolver(donorStep1Schema) })
-  const form2 = useForm<DonorStep2>({
+  const form1 = useForm<DonorStep1Input, unknown, DonorStep1>({ resolver: zodResolver(donorStep1Schema) })
+  const form2 = useForm<DonorStep2Input, unknown, DonorStep2>({
     resolver: zodResolver(donorStep2Schema),
     defaultValues: { latitude: DEFAULT_LAT, longitude: DEFAULT_LNG, city: 'Dhaka' },
   })
-  const form3 = useForm<DonorStep3>({
+  const form3 = useForm<DonorStep3Input, unknown, DonorStep3>({
     resolver: zodResolver(donorStep3Schema),
     defaultValues: {
       q_fever: false,

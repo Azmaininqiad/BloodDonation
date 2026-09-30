@@ -1,6 +1,7 @@
 import { sendEmail } from './email/resend'
 import { buildEmailHtml, buildEmailSubject, buildSmsMessage } from './templates'
 import type { BloodType, UrgencyLevel } from '@/types/database'
+import { getAppUrl } from '@/lib/app-url'
 
 export interface NotificationRow {
   notification_id: string
@@ -25,7 +26,7 @@ export interface SendResult {
 
 /** Send a notification to a donor. Email-only implementation. */
 export async function sendNotification(row: NotificationRow): Promise<SendResult> {
-  const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? 'http://localhost:3000'
+  const appUrl = getAppUrl()
   const responseUrl = `${appUrl}/respond/${row.response_token}`
   const lang = (row.preferred_language === 'bn' ? 'bn' : 'en') as 'en' | 'bn'
 

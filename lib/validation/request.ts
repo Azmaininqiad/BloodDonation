@@ -2,7 +2,7 @@ import { z } from 'zod'
 import { isValidPhone, normalizePhone } from '@/lib/phone'
 import { ALL_BLOOD_TYPES } from '@/lib/compat'
 
-const bloodTypeEnum = z.enum(ALL_BLOOD_TYPES as [string, ...string[]])
+const bloodTypeEnum = z.enum(ALL_BLOOD_TYPES)
 
 export const requestSchema = z.object({
   patient_name: z.string().max(100).optional().or(z.literal('')),
@@ -31,6 +31,7 @@ export const requestSchema = z.object({
 })
 
 export type RequestInput = z.infer<typeof requestSchema>
+export type RequestFormInput = z.input<typeof requestSchema>
 
 export function toRequestInsert(data: RequestInput, ipHash: string) {
   return {

@@ -1,7 +1,7 @@
 'use client'
 
 import { UseFormReturn } from 'react-hook-form'
-import type { DonorStep1 } from '@/lib/validation/donor'
+import type { DonorStep1, DonorStep1Input } from '@/lib/validation/donor'
 import { ALL_BLOOD_TYPES } from '@/lib/compat'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -9,7 +9,7 @@ import { Label } from '@/components/ui/label'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 
 interface Props {
-  form: UseFormReturn<DonorStep1>
+  form: UseFormReturn<DonorStep1Input, unknown, DonorStep1>
   onNext: () => void
 }
 
@@ -56,7 +56,7 @@ export function Step1Form({ form, onNext }: Props) {
             {...register('weight_kg', { valueAsNumber: true })}
             className="mt-1"
           />
-          <p className="text-xs text-gray-500 mt-0.5">Minimum 50 kg</p>
+          <p className="text-xs text-black mt-0.5">Minimum 50 kg</p>
           {errors.weight_kg && <p className="text-red-600 text-xs mt-1">{errors.weight_kg.message}</p>}
         </div>
         <div>

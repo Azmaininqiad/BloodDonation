@@ -20,4 +20,4 @@ export function compatibleDonorTypes(patientBloodType: BloodType): BloodType[] {
 }
 
 /** All 8 blood types in display order */
-export const ALL_BLOOD_TYPES: BloodType[] = ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-']
+export const ALL_BLOOD_TYPES = ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'] as const

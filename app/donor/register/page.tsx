@@ -23,7 +23,7 @@ export default async function DonorRegisterPage() {
         <div className="text-center mb-8">
           <span className="text-4xl">🩸</span>
           <h1 className="text-2xl font-bold text-red-600 mt-2">Become a Donor</h1>
-          <p className="text-gray-500 text-sm">Complete your profile so we can match you with patients nearby.</p>
+          <p className="text-black text-sm">Complete your profile so we can match you with patients nearby.</p>
         </div>
         <DonorRegisterWizard userId={user.id} />
       </div>
