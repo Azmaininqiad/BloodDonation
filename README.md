@@ -31,7 +31,7 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 
 ## Deploy on Vercel
 
-Import the repository into [Vercel](https://vercel.com/new). Vercel detects Next.js and uses the `build` script from `package.json`.
+Import the repository into [Vercel](https://vercel.com/new). Vercel detects Next.js and uses the `build` script from `package.json`. The repository's `vercel.json` pins installs to `npm ci`, matching the committed `package-lock.json`.
 
 Add environment variables in **Project Settings → Environment Variables**. Set them for the environments where they are needed, then redeploy after changing them.
 
