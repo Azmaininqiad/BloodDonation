@@ -53,7 +53,7 @@ export default async function HomePage() {
               <br />Find donors <span className="text-red-200">in minutes.</span>
             </h1>
             <p className="text-red-100 text-lg mb-10 max-w-xl mx-auto">
-              BloodConnect connects patients who urgently need blood with nearby, eligible donors across Dhaka.
+              BloodConnect connects patients who urgently need blood with nearby, eligible donors across Bangladesh.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link href="/request/new">
@@ -63,7 +63,7 @@ export default async function HomePage() {
                 </Button>
               </Link>
               <Link href="/signup">
-                <Button size="lg" variant="outline" className="border-white text-white hover:bg-red-700 font-bold px-8 h-14 text-base w-full sm:w-auto">
+                <Button size="lg" variant="outline" className="border-white text-red-700 hover:bg-red-700 font-bold px-8 h-14 text-base w-full sm:w-auto">
                   <Heart className="w-5 h-5 mr-2" />
                   Become a donor
                 </Button>

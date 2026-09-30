@@ -152,6 +152,27 @@ export function RespondClient({ token, initial }: Props) {
             <p className="text-sm text-green-700">
               Please contact the patient&apos;s family to coordinate your visit.
             </p>
+            <div className="bg-white border border-green-200 rounded-lg p-3 space-y-1.5">
+              <p className="text-xs font-semibold uppercase tracking-wide text-green-800">Hospital</p>
+              <div className="flex items-start gap-2 text-sm">
+                <MapPin className="w-4 h-4 text-green-700 mt-0.5 shrink-0" />
+                <div>
+                  <div className="font-medium text-gray-900">{r.hospital_name}</div>
+                  {r.hospital_address && <div className="text-gray-600">{r.hospital_address}</div>}
+                  <div className="text-xs text-gray-500 mt-0.5">
+                    {r.latitude.toFixed(5)}, {r.longitude.toFixed(5)}
+                  </div>
+                </div>
+              </div>
+              <a
+                href={mapsUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1 text-red-600 hover:underline text-xs"
+              >
+                <MapPin className="w-3 h-3" /> Open hospital location in maps
+              </a>
+            </div>
             <div className="space-y-2">
               {contacts.requester_name && (
                 <p className="text-sm font-medium">{contacts.requester_name}</p>

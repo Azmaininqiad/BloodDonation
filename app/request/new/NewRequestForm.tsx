@@ -11,23 +11,15 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
-import { HospitalCombobox } from '@/components/forms/HospitalCombobox'
 import { LocationPicker } from '@/components/map/LocationPicker'
 import { ALL_BLOOD_TYPES } from '@/lib/compat'
 
 const DEFAULT_LAT = parseFloat(process.env.NEXT_PUBLIC_DEFAULT_LAT ?? '23.8103')
 const DEFAULT_LNG = parseFloat(process.env.NEXT_PUBLIC_DEFAULT_LNG ?? '90.4125')
 
-interface Hospital {
-  id: string; name: string; address: string | null; area: string | null
-  latitude: number; longitude: number
-}
-
 export function NewRequestForm() {
   const router = useRouter()
   const [loading, setLoading] = useState(false)
-  const [hospital, setHospital] = useState<Hospital | null>(null)
-  const [showManualHospital, setShowManualHospital] = useState(false)
 
   const { register, handleSubmit, setValue, watch, formState: { errors } } = useForm<RequestFormInput, unknown, RequestInput>({
     resolver: zodResolver(requestSchema),
@@ -38,21 +30,6 @@ export function NewRequestForm() {
       longitude: DEFAULT_LNG,
     },
   })
-
-  function handleHospitalSelect(h: Hospital | null) {
-    setHospital(h)
-    if (h) {
-      setValue('hospital_id', h.id)
-      setValue('hospital_name', h.name)
-      setValue('hospital_address', h.address ?? '')
-      setValue('latitude', h.latitude)
-      setValue('longitude', h.longitude)
-      setShowManualHospital(false)
-    } else {
-      setValue('hospital_id', '')
-      setShowManualHospital(true)
-    }
-  }
 
   async function onSubmit(data: RequestInput) {
     setLoading(true)
@@ -155,35 +132,44 @@ export function NewRequestForm() {
       </div>
 
       <div>
-        <Label>Hospital *</Label>
-        <div className="mt-1">
-          <HospitalCombobox onSelect={handleHospitalSelect} selected={hospital} />
-        </div>
+        <Label htmlFor="hospital_name">Hospital name *</Label>
+        <Input
+          id="hospital_name"
+          {...register('hospital_name')}
+          className="mt-1"
+          placeholder="e.g. Dhaka Medical College Hospital"
+        />
         {errors.hospital_name && <p className="text-red-600 text-xs mt-1">{errors.hospital_name.message}</p>}
       </div>
 
-      {showManualHospital && (
-        <div className="space-y-3 p-4 bg-gray-50 rounded-lg border">
-          <div>
-            <Label htmlFor="hospital_name">Hospital name *</Label>
-            <Input id="hospital_name" {...register('hospital_name')} className="mt-1" />
-          </div>
-          <div>
-            <Label htmlFor="hospital_address">Hospital address</Label>
-            <Input id="hospital_address" {...register('hospital_address')} className="mt-1" />
-          </div>
-          <div>
-            <Label>Hospital location on map *</Label>
-            <div className="mt-2">
-              <LocationPicker
-                lat={watch('latitude') ?? DEFAULT_LAT}
-                lng={watch('longitude') ?? DEFAULT_LNG}
-                onChange={(lat, lng) => { setValue('latitude', lat); setValue('longitude', lng) }}
-              />
-            </div>
-          </div>
-        </div>
-      )}
+      <div>
+        <Label>Hospital location *</Label>
+        <p className="text-xs text-gray-600 mb-2">
+          Used to find donors near the hospital. Donors see this after they confirm.
+        </p>
+        <LocationPicker
+          lat={watch('latitude') ?? DEFAULT_LAT}
+          lng={watch('longitude') ?? DEFAULT_LNG}
+          onChange={(lat, lng) => {
+            setValue('latitude', lat, { shouldDirty: true, shouldValidate: true })
+            setValue('longitude', lng, { shouldDirty: true, shouldValidate: true })
+          }}
+        />
+        {(errors.latitude || errors.longitude) && (
+          <p className="text-red-600 text-xs mt-1">Location is required</p>
+        )}
+      </div>
+
+      <div>
+        <Label htmlFor="hospital_address">Hospital address (optional)</Label>
+        <Input
+          id="hospital_address"
+          {...register('hospital_address')}
+          className="mt-1"
+          placeholder="Street, area, city"
+        />
+        {errors.hospital_address && <p className="text-red-600 text-xs mt-1">{errors.hospital_address.message}</p>}
+      </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         <div>
