@@ -63,7 +63,7 @@ export default async function HomePage() {
                 </Button>
               </Link>
               <Link href="/signup">
-                <Button size="lg" variant="outline" className="border-white text-red-700 hover:bg-red-700 font-bold px-8 h-14 text-base w-full sm:w-auto">
+                <Button size="lg" variant="outline" className="border-white text-red-700 hover:bg-red-50 font-bold px-8 h-14 text-base w-full sm:w-auto">
                   <Heart className="w-5 h-5 mr-2" />
                   Become a donor
                 </Button>
